@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Achuth Narayan Rajagopal</title>
-    <link>https://athul.github.io/</link>
+    <link>https://Achuth17.github.io/</link>
     <description>Recent content on Achuth Narayan Rajagopal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Achuth</copyright>
-    <lastBuildDate>Wed, 01 Jan 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://athul.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Jan 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://Achuth17.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About Me</title>
-      <link>https://athul.github.io/about/</link>
+      <link>https://Achuth17.github.io/about/</link>
       <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://athul.github.io/about/</guid>
+      <guid>https://Achuth17.github.io/about/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Test blog post</title>
-      <link>https://athul.github.io/posts/test/</link>
+      <link>https://Achuth17.github.io/posts/test/</link>
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://athul.github.io/posts/test/</guid>
+      <guid>https://Achuth17.github.io/posts/test/</guid>
       <description>Test blog post!</description>
     </item>
     
