@@ -1,4 +1,4 @@
-baseURL = 'https://achuth-blog.netlify.app/'
+baseURL = 'https://achuth.blog/'
 languageCode = 'en-us'
 title = 'My New Hugo Site'
 theme = 'archie'
