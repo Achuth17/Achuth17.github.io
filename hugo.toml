@@ -1,0 +1,4 @@
+baseURL = 'https://achuth-blog.netlify.app/'
+languageCode = 'en-us'
+title = 'My New Hugo Site'
+theme = 'archie'
