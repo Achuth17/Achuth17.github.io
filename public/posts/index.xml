@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on My New Hugo Site</title>
+    <title>Posts on Achuth&#39;s Blog</title>
     <link>http://localhost:1313/posts/</link>
-    <description>Recent content in Posts on My New Hugo Site</description>
+    <description>Recent content in Posts on Achuth&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate></lastBuildDate>
+    <lastBuildDate>Sun, 13 Oct 2024 00:11:52 -0700</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Envoy Lua Filter Exploration - Part 1</title>
+      <link>http://localhost:1313/posts/my-first-post/</link>
+      <pubDate>Sun, 13 Oct 2024 00:11:52 -0700</pubDate>
+      <guid>http://localhost:1313/posts/my-first-post/</guid>
+      <description>&lt;p&gt;Envoy offers a lot of variety in HTTP filters and you can do a lot with what comes out of the box like &lt;code&gt;Header Mutation filter&lt;/code&gt; or &lt;code&gt;gRPC-HTTP Transcoding&lt;/code&gt;. While this is great, there are certain circumstances where we need some additional customizations so Envoy scratches this itch by providing options like Lua Filter, Wasm Filter or the ExtProc Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter.&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>

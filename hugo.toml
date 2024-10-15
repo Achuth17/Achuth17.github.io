@@ -1,4 +1,4 @@
 baseURL = 'https://achuth.blog/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = "Achuth's Blog"
 theme = 'archie'

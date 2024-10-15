@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html><head lang="en"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Envoy Lua HTTP Filter Exploration - Part 1 - Achuth&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Envoy offers a of variety in HTTP filters and you can do a lot with what comes out of the box like Header Mutation filter or gRPC-HTTP Transcoding. While this is great, there are certain circumstances where we need some additional customizations. To solve this issue, Envoy provides options like Lua HTTP Filter, Wasm Filter or the ExtProc Filter. Through these filters, you can write custom code in a non-C&#43;&#43; language that gets excuted either in the request or response flow like any other Envoy Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter." />
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content="http://localhost:1313/posts/envoy-lua-filter-exploration-part-1/">
+  <meta property="og:site_name" content="Achuth&#39;s Blog">
+  <meta property="og:title" content="Envoy Lua HTTP Filter Exploration - Part 1">
+  <meta property="og:description" content="Envoy offers a of variety in HTTP filters and you can do a lot with what comes out of the box like Header Mutation filter or gRPC-HTTP Transcoding. While this is great, there are certain circumstances where we need some additional customizations. To solve this issue, Envoy provides options like Lua HTTP Filter, Wasm Filter or the ExtProc Filter. Through these filters, you can write custom code in a non-C&#43;&#43; language that gets excuted either in the request or response flow like any other Envoy Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-13T00:11:52-07:00">
+    <meta property="article:modified_time" content="2024-10-13T00:11:52-07:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Envoy Lua HTTP Filter Exploration - Part 1">
+  <meta name="twitter:description" content="Envoy offers a of variety in HTTP filters and you can do a lot with what comes out of the box like Header Mutation filter or gRPC-HTTP Transcoding. While this is great, there are certain circumstances where we need some additional customizations. To solve this issue, Envoy provides options like Lua HTTP Filter, Wasm Filter or the ExtProc Filter. Through these filters, you can write custom code in a non-C&#43;&#43; language that gets excuted either in the request or response flow like any other Envoy Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter.">
+
+	
+        <link href="http://localhost:1313/css/fonts.2c2227b81b1970a03e760aa2e6121cd01f87c88586803cbb282aa224720a765f.css" rel="stylesheet">
+	
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:1313/css/main.5cebd7d4fb2b97856af8d32a6def16164fcf7d844e98e236fcb3559655020373.css" />
+
+	
+	
+
+	
+	
+
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="http://localhost:1313/">Achuth&#39;s Blog</a>
+	</div>
+	<nav>
+		
+		
+	</nav>
+</header>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">Envoy Lua HTTP Filter Exploration - Part 1</h1>
+			<div class="meta">Posted on Oct 13, 2024</div>
+		</div>
+		
+
+		
+
+		<section class="body">
+			<p>Envoy offers a of variety in HTTP filters and you can do a lot with what comes out of the box like <code>Header Mutation filter</code> or <code>gRPC-HTTP Transcoding</code>. While this is great, there are certain circumstances where we need some additional customizations. To solve this issue, Envoy provides options like Lua HTTP Filter, Wasm Filter or the ExtProc Filter. Through these filters, you can write custom code in a non-C++ language that gets excuted either in the request or response flow like any other Envoy Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter.</p>
+<h2 id="writing-and-maintaining-lua-scripts">Writing and maintaining Lua Scripts</h2>
+<h3 id="in-lining-lua-scripts">In-lining Lua Scripts</h3>
+<p>Register the script as an <code>inline_string</code> in the <code>default_source_code</code> or in the <code>source_codes</code> map section of the Lua HTTP Filter.</p>
+<pre tabindex="0"><code>...
+http_filters:
+- name: envoy.filters.http.lua
+typed_config:
+    &#34;@type&#34;: type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua              
+    default_source_code:
+    inline_string: |
+        -- Called on the request path.
+        function envoy_on_request(request_handle)
+        request_handle:logInfo(&#34;Logging in the request path from default lua source.&#34;)
+        end
+        -- Called on the response path.
+        function envoy_on_response(response_handle)
+        response_handle:logInfo(&#34;Logging in the response path from default lua source.&#34;)
+        end
+...
+</code></pre><p><a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-default-source.yaml">Full example</a></p>
+<h3 id="lua-script-files">Lua Script Files</h3>
+<p>Create a separate Lua script file, Implement the two stub methods function <code>envoy_on_request(request_handle)</code> and function <code>envoy_on_response(response_handle)</code>. Ensure the script is accessible from the Envoy runtime. Once this is done, the script file can be referenced from the <code>source_codes</code> map section of the Lua HTTP Filter.</p>
+<pre tabindex="0"><code>-- file.lua
+-- Called on the request path.
+function envoy_on_request(request_handle)
+    local headers = request_handle:headers()
+    header_value_to_replace = &#34;User-Agent&#34;
+    header_value = headers:get(header_value_to_replace)
+    if header_value ~= nil then
+      request_handle:logInfo(&#34;Replacing UserAgent header found in the request with &#39;Envoy&#39;&#34;)
+      request_handle:headers():remove(header_value_to_replace)
+      request_handle:headers():add(header_value_to_replace, &#34;Envoy&#34;)
+    end
+  end
+
+  -- Called on the response path.
+  function envoy_on_response(response_handle)
+  end
+</code></pre><p>Register the script file in the <code>source_codes</code> map in the Lua HTTP Filter.</p>
+<pre tabindex="0"><code>...
+http_filters:
+          - name: envoy.filters.http.lua
+            typed_config:
+              &#34;@type&#34;: type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua              
+              source_codes:
+                file.lua:
+                  filename: file.lua
+...
+</code></pre><p><a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-custom-source.yaml">Full example</a></p>
+<h2 id="attaching-lua-scripts">Attaching Lua Scripts</h2>
+<h3 id="lua-per-route">Lua Per Route</h3>
+<p>In each applicable route defined in a <code>virtual_host</code>,  the <code>source_codes</code> map entry for the lua script should be referenced in a <code>typed_per_filter_config</code>.</p>
+<pre tabindex="0"><code>...
+filter_chains:
+    - filters:     
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          &#34;@type&#34;: type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_http
+          codec_type: AUTO
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains: [&#34;*&#34;]
+              routes:
+              - match: { prefix: &#34;/ip&#34; }
+                route: { cluster: some_service }
+                typed_per_filter_config:
+                  envoy.filters.http.lua:
+                    &#39;@type&#39;: &#34;type.googleapis.com/envoy.extensions.filters.http.lua.v3.LuaPerRoute&#34;
+                    name: &#34;file.lua&#34;
+...
+</code></pre><p><a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-custom-source.yaml">Full example</a></p>
+<h3 id="default-lua-script">Default Lua Script</h3>
+<p>Default scripts are added by default to all routes except in routes with <code>Lua Per Route</code>. No extra steps are required in the <code>virtual_host</code> or <code>route</code> configurations.</p>
+<p><a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-default-source.yaml">Full example</a></p>
+<h2 id="learnings">Learnings:</h2>
+<ol>
+<li>
+<p>Default Lua Script gets executed only when <code>Lua Per Route</code> is not in play. If <code>Lua Per Route</code> is used, the Default Lua Script is ignored.</p>
+</li>
+<li>
+<p>Scenarios where Lua HTTP Filter is useful in its current form:</p>
+<p>i. Modifying Headers, Body and Trailers including cases where the body is chunked or streamed.</p>
+<p>ii. Making an external HTTP call to an upstream cluster. This can be done to either to log the request or response, send stats to an external server or perform auth. The suggestion is to not make blocking calls in the Lua HTTP Filter.</p>
+<p>iii. Short circuiting request or response flows. If the headers, body or trailers don’t meet a certain criteria, we can short circuit the request or response flow and send back a canned response to the client. In the request flow, This could prevent calls from reaching the upstream cluster.</p>
+</li>
+</ol>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			
+		</div>
+		</article>
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+</div>
+    </body>
+</html>

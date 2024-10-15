@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html><head lang="en"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Envoy Lua Filter Exploration - Part 1 - Achuth&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Envoy offers a lot of variety in HTTP filters and you can do a lot with what comes out of the box like Header Mutation filter or gRPC-HTTP Transcoding. While this is great, there are certain circumstances where we need some additional customizations so Envoy scratches this itch by providing options like Lua Filter, Wasm Filter or the ExtProc Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter." />
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content="http://localhost:1313/posts/my-first-post/">
+  <meta property="og:site_name" content="Achuth&#39;s Blog">
+  <meta property="og:title" content="Envoy Lua Filter Exploration - Part 1">
+  <meta property="og:description" content="Envoy offers a lot of variety in HTTP filters and you can do a lot with what comes out of the box like Header Mutation filter or gRPC-HTTP Transcoding. While this is great, there are certain circumstances where we need some additional customizations so Envoy scratches this itch by providing options like Lua Filter, Wasm Filter or the ExtProc Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-13T00:11:52-07:00">
+    <meta property="article:modified_time" content="2024-10-13T00:11:52-07:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Envoy Lua Filter Exploration - Part 1">
+  <meta name="twitter:description" content="Envoy offers a lot of variety in HTTP filters and you can do a lot with what comes out of the box like Header Mutation filter or gRPC-HTTP Transcoding. While this is great, there are certain circumstances where we need some additional customizations so Envoy scratches this itch by providing options like Lua Filter, Wasm Filter or the ExtProc Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter.">
+
+	
+        <link href="http://localhost:1313/css/fonts.2c2227b81b1970a03e760aa2e6121cd01f87c88586803cbb282aa224720a765f.css" rel="stylesheet">
+	
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:1313/css/main.5cebd7d4fb2b97856af8d32a6def16164fcf7d844e98e236fcb3559655020373.css" />
+
+	
+	
+
+	
+	
+
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="http://localhost:1313/">Achuth&#39;s Blog</a>
+	</div>
+	<nav>
+		
+		
+	</nav>
+</header>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">Envoy Lua Filter Exploration - Part 1</h1>
+			<div class="meta">Posted on Oct 13, 2024</div>
+		</div>
+		
+
+		
+
+		<section class="body">
+			<p>Envoy offers a lot of variety in HTTP filters and you can do a lot with what comes out of the box like <code>Header Mutation filter</code> or <code>gRPC-HTTP Transcoding</code>. While this is great, there are certain circumstances where we need some additional customizations so Envoy scratches this itch by providing options like Lua Filter, Wasm Filter or the ExtProc Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter.</p>
+<h2 id="writing-and-maintaining-lua-scripts">Writing and maintaining Lua Scripts</h2>
+<h3 id="in-lining-lua-scripts">In-lining Lua Scripts</h3>
+<p>Register the script as an <code>inline_string</code> in the <code>source_codes</code> map in the Lua HTTP Filter.</p>
+<pre tabindex="0"><code></code></pre><h3 id="lua-script-files">Lua Script Files</h3>
+<p>In the script file, Implement the two stub methods function <code>envoy_on_request(request_handle)</code> and function <code>envoy_on_response(response_handle)</code>. Ensure the script is accessible from the Envoy runtime.</p>
+<pre tabindex="0"><code></code></pre><p>Register the script file in the <code>source_codes</code>map in the Lua HTTP Filter.</p>
+<pre tabindex="0"><code></code></pre><h2 id="attaching-lua-scripts">Attaching Lua Scripts</h2>
+<h3 id="lua-per-route">Lua Per Route</h3>
+<p>In each applicable route defined in a <code>virtual_host</code>,  the <code>source_codes</code> map entry for the lua script should be referenced in a <code>typed_per_filter_config</code>.</p>
+<pre tabindex="0"><code></code></pre><h3 id="default-lua-script">Default Lua Script</h3>
+<p>Default scripts are added by default to all routes except in routes with <code>Lua Per Route</code>. No extra steps are required in the <code>virtual_host</code> or <code>route</code> configurations.</p>
+<pre tabindex="0"><code></code></pre><h2 id="learnings">Learnings:</h2>
+<ol>
+<li>
+<p>Default Lua Script gets executed only when <code>Lua Per Route</code> is not in play. If <code>Lua Per Route</code> is used, the Default Lua Script is ignored.
+Scenarios where Lua Filter is useful in its current form:
+Modifying Headers, Body and Trailers including cases where the body is chunked or streamed.</p>
+</li>
+<li>
+<p>Making an external HTTP call to an upstream cluster. This can be done to either log the request/response stats to an external server or perform auth. The suggestion is to not make blocking calls in the Lua Filter.</p>
+</li>
+<li>
+<p>Short circuiting request or response flows. If the headers, body or trailers don’t meet a certain criteria, we can short circuit the request and send back a canned response to the client. This prevents calls reaching the backend server.</p>
+</li>
+</ol>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			
+		</div>
+		</article>
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+</div>
+    </body>
+</html>
