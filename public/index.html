@@ -50,14 +50,27 @@
 				
 				
 				<section class="list-item">
-					<h1 class="title"><a href="/posts/envoy-lua-filter-exploration-part-1/">Envoy Lua HTTP Filter Exploration - Part 1</a></h1>
+					<h1 class="title"><a href="/posts/lua-filters-api-key-validation/">Envoy Proxy: API Key Validation using HTTP Lua Filters</a></h1>
+					<time>Oct 20, 2024</time>
+					<br><div class="description">
+	
+	<p>As a continuation of my previous <a href="https://achuth.blog/posts/envoy-lua-filter-exploration/">blog post</a>, I was looking for good examples to further explore Envoy&rsquo;s extension points. During this search, I found an <a href="https://github.com/envoyproxy/envoy/issues/34877">issue</a> on Github asking for a native Envoy Filter to do API Key Validation. I am not very familiar with Envoy&rsquo;s native C++ filters but, as things stand today, we can already solve this problem using a Lua HTTP Filter. This post will explain how.</p>
+<h2 id="what-are-api-keys">What are API Keys?</h2>
+<p><a href="https://swagger.io/docs/specification/v3_0/authentication/api-keys/">API Keys</a> are used for authorization by some servers and they are usually a short unique string used to identify client. Although, API Keys are not the most secure form of authorization, they are still commonly used. When a client makes an API call to the server, this unique API Key can be included in the request in the following ways:</p>&hellip;
+	
+</div>
+					<a class="readmore" href="/posts/lua-filters-api-key-validation/">Read more ⟶</a>
+				</section>
+				
+				<section class="list-item">
+					<h1 class="title"><a href="/posts/envoy-lua-filter-exploration/">Envoy Lua HTTP Filter Exploration</a></h1>
 					<time>Oct 13, 2024</time>
 					<br><div class="description">
 	
 	<p>Envoy offers a of variety in HTTP filters and you can do a lot with what comes out of the box like <code>Header Mutation filter</code> or <code>gRPC-HTTP Transcoding</code>. While this is great, there are certain circumstances where we need some additional customizations. To solve this issue, Envoy provides options like Lua HTTP Filter, Wasm Filter or the ExtProc Filter. Through these filters, you can write custom code in a non-C++ language that gets excuted either in the request or response flow like any other Envoy Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter.</p>&hellip;
 	
 </div>
-					<a class="readmore" href="/posts/envoy-lua-filter-exploration-part-1/">Read more ⟶</a>
+					<a class="readmore" href="/posts/envoy-lua-filter-exploration/">Read more ⟶</a>
 				</section>
 				
 				

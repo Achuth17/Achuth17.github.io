@@ -6,14 +6,21 @@
     <description>Recent content in Posts on Achuth&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 13 Oct 2024 00:11:52 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 20 Oct 2024 11:07:45 -0700</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Envoy Lua Filter Exploration - Part 1</title>
-      <link>http://localhost:1313/posts/my-first-post/</link>
+      <title>Envoy Lua HTTP Filter Exploration - Part 1</title>
+      <link>http://localhost:1313/posts/envoy-lua-filter-exploration-part-2/</link>
+      <pubDate>Sun, 20 Oct 2024 11:07:45 -0700</pubDate>
+      <guid>http://localhost:1313/posts/envoy-lua-filter-exploration-part-2/</guid>
+      <description>&lt;p&gt;Test&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Envoy Lua HTTP Filter Exploration - Part 1</title>
+      <link>http://localhost:1313/posts/envoy-lua-filter-exploration-part-1/</link>
       <pubDate>Sun, 13 Oct 2024 00:11:52 -0700</pubDate>
-      <guid>http://localhost:1313/posts/my-first-post/</guid>
-      <description>&lt;p&gt;Envoy offers a lot of variety in HTTP filters and you can do a lot with what comes out of the box like &lt;code&gt;Header Mutation filter&lt;/code&gt; or &lt;code&gt;gRPC-HTTP Transcoding&lt;/code&gt;. While this is great, there are certain circumstances where we need some additional customizations so Envoy scratches this itch by providing options like Lua Filter, Wasm Filter or the ExtProc Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter.&lt;/p&gt;</description>
+      <guid>http://localhost:1313/posts/envoy-lua-filter-exploration-part-1/</guid>
+      <description>&lt;p&gt;Envoy offers a of variety in HTTP filters and you can do a lot with what comes out of the box like &lt;code&gt;Header Mutation filter&lt;/code&gt; or &lt;code&gt;gRPC-HTTP Transcoding&lt;/code&gt;. While this is great, there are certain circumstances where we need some additional customizations. To solve this issue, Envoy provides options like Lua HTTP Filter, Wasm Filter or the ExtProc Filter. Through these filters, you can write custom code in a non-C++ language that gets excuted either in the request or response flow like any other Envoy Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -1,5 +1,5 @@
 +++
-title = 'Envoy Lua HTTP Filter Exploration - Part 1'
+title = 'Envoy Lua HTTP Filter Exploration'
 date = 2024-10-13T00:11:52-07:00
 draft = false
 +++

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html><head lang="en"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Envoy Proxy: API Key Validation using HTTP Lua Filters - Achuth&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="As a continuation of my previous blog post, I was looking for good examples to further explore Envoy&rsquo;s extension points. During this search, I found an issue on Github asking for a native Envoy Filter to do API Key Validation. I am not very familiar with Envoy&rsquo;s native C&#43;&#43; filters but, as things stand today, we can already solve this problem using a Lua HTTP Filter. This post will explain how.
+What are API Keys?
+API Keys are used for authorization by some servers and they are usually a short unique string used to identify client. Although, API Keys are not the most secure form of authorization, they are still commonly used. When a client makes an API call to the server, this unique API Key can be included in the request in the following ways:" />
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content="http://localhost:1313/posts/lua-filters-api-key-validation/">
+  <meta property="og:site_name" content="Achuth&#39;s Blog">
+  <meta property="og:title" content="Envoy Proxy: API Key Validation using HTTP Lua Filters">
+  <meta property="og:description" content="As a continuation of my previous blog post, I was looking for good examples to further explore Envoy’s extension points. During this search, I found an issue on Github asking for a native Envoy Filter to do API Key Validation. I am not very familiar with Envoy’s native C&#43;&#43; filters but, as things stand today, we can already solve this problem using a Lua HTTP Filter. This post will explain how.
+What are API Keys? API Keys are used for authorization by some servers and they are usually a short unique string used to identify client. Although, API Keys are not the most secure form of authorization, they are still commonly used. When a client makes an API call to the server, this unique API Key can be included in the request in the following ways:">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-20T11:07:45-07:00">
+    <meta property="article:modified_time" content="2024-10-20T11:07:45-07:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Envoy Proxy: API Key Validation using HTTP Lua Filters">
+  <meta name="twitter:description" content="As a continuation of my previous blog post, I was looking for good examples to further explore Envoy’s extension points. During this search, I found an issue on Github asking for a native Envoy Filter to do API Key Validation. I am not very familiar with Envoy’s native C&#43;&#43; filters but, as things stand today, we can already solve this problem using a Lua HTTP Filter. This post will explain how.
+What are API Keys? API Keys are used for authorization by some servers and they are usually a short unique string used to identify client. Although, API Keys are not the most secure form of authorization, they are still commonly used. When a client makes an API call to the server, this unique API Key can be included in the request in the following ways:">
+
+	
+        <link href="http://localhost:1313/css/fonts.2c2227b81b1970a03e760aa2e6121cd01f87c88586803cbb282aa224720a765f.css" rel="stylesheet">
+	
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:1313/css/main.5cebd7d4fb2b97856af8d32a6def16164fcf7d844e98e236fcb3559655020373.css" />
+
+	
+	
+
+	
+	
+
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="http://localhost:1313/">Achuth&#39;s Blog</a>
+	</div>
+	<nav>
+		
+		
+	</nav>
+</header>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">Envoy Proxy: API Key Validation using HTTP Lua Filters</h1>
+			<div class="meta">Posted on Oct 20, 2024</div>
+		</div>
+		
+
+		
+
+		<section class="body">
+			<p>As a continuation of my previous <a href="https://achuth.blog/posts/envoy-lua-filter-exploration/">blog post</a>, I was looking for good examples to further explore Envoy&rsquo;s extension points. During this search, I found an <a href="https://github.com/envoyproxy/envoy/issues/34877">issue</a> on Github asking for a native Envoy Filter to do API Key Validation. I am not very familiar with Envoy&rsquo;s native C++ filters but, as things stand today, we can already solve this problem using a Lua HTTP Filter. This post will explain how.</p>
+<h2 id="what-are-api-keys">What are API Keys?</h2>
+<p><a href="https://swagger.io/docs/specification/v3_0/authentication/api-keys/">API Keys</a> are used for authorization by some servers and they are usually a short unique string used to identify client. Although, API Keys are not the most secure form of authorization, they are still commonly used. When a client makes an API call to the server, this unique API Key can be included in the request in the following ways:</p>
+<h3 id="header">Header</h3>
+<pre tabindex="0"><code>curl  -H &#34;X-API-KEY: PERMITTED_API_KEY&#34; &#39;localhost:10000/get&#39;
+
+GET /get HTTP/1.1
+Host: localhost:10000
+User-Agent: curl/8.7.1
+Accept: */*
+X-API-KEY: PERMITTED_API_KEY
+</code></pre><h3 id="query-parameter">Query Parameter</h3>
+<pre tabindex="0"><code>curl -vvv &#39;localhost:10000/get?X-API-KEY=PERMITTED_API_KEY&#39;
+
+GET /get?X-API-KEY=PERMITTED_API_KEY HTTP/1.1
+Host: localhost:10000
+User-Agent: curl/8.7.1
+Accept: */*
+</code></pre><h3 id="cookie">Cookie</h3>
+<pre tabindex="0"><code>curl -vvv --cookie &#34;X-API-KEY=PERMITTED_API_KEY&#34; &#39;localhost:10000/get&#39;
+
+GET /get HTTP/1.1
+Host: localhost:10000
+User-Agent: curl/8.7.1
+Accept: */*
+Cookie: X-API-KEY=PERMITTED_API_KEY
+</code></pre><h2 id="how-are-api-keys-validated-in-envoy">How are API Keys validated in Envoy?</h2>
+<p>Since Envoy doesn&rsquo;t natively support API Key Validation, there are a few ways to extend Envoy to perform API Key Validation:</p>
+<ol>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_authz_filter">External Authorization Filter</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_proc_filter">External Processing Filter</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/wasm_filter">WASM Filter</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/lua_filter">Lua Filter</a></li>
+</ol>
+<p>In the post, I will be exploring the Lua HTTP Filter based approach.</p>
+<h2 id="api-key-validation-using-http-lua-filter">API Key Validation using HTTP Lua Filter</h2>
+<p>As I discussed in the previous <a href="https://achuth.blog/posts/envoy-lua-filter-exploration/">blog post</a>, it is possible to extract or modify headers, query parameters, body and trailers of a request or response using a custom Lua script. This script can also be selectively attach to some or all paths in an Envoy proxy. Building on this, I will be making the following three changes in this new API Key Validation Lua script -</p>
+<ol>
+<li>Extract the API Key from Headers or Query Params.</li>
+<li>Validate the API Key by making an external HTTP Call.</li>
+<li>Terminate requests that fail API Key Validation step with a proper error message.</li>
+</ol>
+<p><a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-apikey-auth.yaml">Full example</a></p>
+<h3 id="extracting-api-key-from-headers">Extracting API Key from Headers</h3>
+<pre tabindex="0"><code>local auth_key = &#34;X-API-KEY&#34;
+local headers = request_handle:headers()
+api_key_value = headers:get(auth_key)
+</code></pre><h3 id="extracting-api-key-from-query-params">Extracting API Key from Query Params</h3>
+<pre tabindex="0"><code>local auth_key = &#34;X-API-KEY&#34;
+local path = request_handle:headers():get(&#34;:path&#34;)
+local api_key_param_value = extract_query_param_from_path(path, auth_key)
+
+function extract_query_param_from_path(path, param_name)
+  start_index = string.find(path, &#34;?&#34;)
+  if start_index == nil then
+    return
+  end
+  q_param_string = string.sub(path, start_index+1)
+  q_param_pairs = split(q_param_string, &#34;&amp;&#34;)
+  for i,param_pair in pairs(q_param_pairs) do
+    param_split = split(param_pair, &#34;=&#34;)
+    if (param_split[1] == param_name) then
+      return param_split[2]
+    end
+  end
+end
+
+-- Source: https://stackoverflow.com/questions/1426954/split-string-in-lua
+function split(s, separator)
+  local fields = {}
+  
+  local insert_func = function (val)
+    table.insert(fields, val)
+  end
+
+  local pattern = string.format(&#34;([^%s]+)&#34;, separator)
+  string.gsub(s, pattern, insert_func)
+
+  return fields
+end
+</code></pre><h3 id="making-an-external-validation-call">Making an external validation call</h3>
+<p>We can make an HTTP call from the request or respose flow in the Lua Filter. In this case, I have opted to use the sync HTTP call. The backend server used for making the validation call should be <a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-apikey-auth.yaml#L53">registered</a> as a <code>cluster</code> in the main envoy config.yaml file.</p>
+<pre tabindex="0"><code>local resp_headers, body = request_handle:httpCall(
+    &#34;auth_cluster&#34;,
+    {
+    [&#34;:method&#34;] = &#34;POST&#34;,
+    [&#34;:path&#34;] = &#34;/auth&#34;,
+    [&#34;:authority&#34;] = &#34;auth_cluster&#34;,
+    [&#34;X-API-KEY&#34;] = api_key_value
+    },
+    &#34;&#34;,
+    5000)
+status_code = resp_headers[&#34;:status&#34;]
+</code></pre><h3 id="rejecting-requests-that-fail-validation">Rejecting requests that fail validation</h3>
+<p>If the API Key Validation Server does not respond back with a 200 status code, we can reject the request made by the client with a canned &ldquo;Request Denied&rdquo; response and a 403 status code.</p>
+<pre tabindex="0"><code>if resp_headers[status_header] ~= &#34;200&#34; then
+    -- Respond back as denied, we can short circuit any further filters.
+    request_handle:respond({[&#34;:status&#34;] = status_code}, &#34;API Key is Invalid!\n&#34;)
+end
+</code></pre><p><a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-apikey-auth.yaml">Full example</a></p>
+<p>To validate the API Keys, I am hosting a <a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/auth_server/auth_server.go">simple go http server</a> that rejects requests that don&rsquo;t contain the expected API Key in the header.</p>
+<h2 id="learnings">Learnings:</h2>
+<ol>
+<li>The Lua HTTP Filter is fairly extensible as it can make one or more sync/async HTTP calls in the request or response path.</li>
+<li>The Lua HTTP Filter can terminate any request or response early by sending back a canned response.</li>
+</ol>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			
+		</div>
+		</article>
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+</div>
+    </body>
+</html>
