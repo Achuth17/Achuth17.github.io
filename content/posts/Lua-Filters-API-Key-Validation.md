@@ -2,6 +2,7 @@
 title = 'Envoy Proxy: API Key Validation using HTTP Lua Filters'
 date = 2024-10-20T11:07:45-07:00
 draft = false
+tags = ['envoy', 'lua']
 +++
 
 As a continuation of my previous [blog post](https://achuth.blog/posts/envoy-lua-filter-exploration/), I was looking for good examples to further explore Envoy's extension points. During this search, I found an [issue](https://github.com/envoyproxy/envoy/issues/34877) on Github asking for a native Envoy Filter to do API Key Validation. I am not very familiar with Envoy's native C++ filters but, as things stand today, we can already solve this problem using a Lua HTTP Filter. This post will explain how.

@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Achuth&#39;s Blog</title>
-    <link>http://localhost:1313/posts/</link>
-    <description>Recent content in Posts on Achuth&#39;s Blog</description>
+    <title>Envoy on Achuth&#39;s Blog</title>
+    <link>http://localhost:1313/tags/envoy/</link>
+    <description>Recent content in Envoy on Achuth&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 20 Oct 2024 11:07:45 -0700</lastBuildDate>
-    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/envoy/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Envoy Proxy: API Key Validation using HTTP Lua Filters</title>
       <link>http://localhost:1313/posts/lua-filters-api-key-validation/</link>
       <pubDate>Sun, 20 Oct 2024 11:07:45 -0700</pubDate>
       <guid>http://localhost:1313/posts/lua-filters-api-key-validation/</guid>
       <description>&lt;p&gt;As a continuation of my previous &lt;a href=&#34;https://achuth.blog/posts/envoy-lua-filter-exploration/&#34;&gt;blog post&lt;/a&gt;, I was looking for good examples to further explore Envoy&amp;rsquo;s extension points. During this search, I found an &lt;a href=&#34;https://github.com/envoyproxy/envoy/issues/34877&#34;&gt;issue&lt;/a&gt; on Github asking for a native Envoy Filter to do API Key Validation. I am not very familiar with Envoy&amp;rsquo;s native C++ filters but, as things stand today, we can already solve this problem using a Lua HTTP Filter. This post will explain how.&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-are-api-keys&#34;&gt;What are API Keys?&lt;/h2&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://swagger.io/docs/specification/v3_0/authentication/api-keys/&#34;&gt;API Keys&lt;/a&gt; are used for authorization by some servers and they are usually a short unique string used to identify client. Although, API Keys are not the most secure form of authorization, they are still commonly used. When a client makes an API call to the server, this unique API Key can be included in the request in the following ways:&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Envoy Lua HTTP Filter Exploration</title>
-      <link>http://localhost:1313/posts/envoy-lua-filter-exploration/</link>
-      <pubDate>Sun, 13 Oct 2024 00:11:52 -0700</pubDate>
-      <guid>http://localhost:1313/posts/envoy-lua-filter-exploration/</guid>
-      <description>&lt;p&gt;Envoy offers a of variety in HTTP filters and you can do a lot with what comes out of the box like &lt;code&gt;Header Mutation filter&lt;/code&gt; or &lt;code&gt;gRPC-HTTP Transcoding&lt;/code&gt;. While this is great, there are certain circumstances where we need some additional customizations. To solve this issue, Envoy provides options like Lua HTTP Filter, Wasm Filter or the ExtProc Filter. Through these filters, you can write custom code in a non-C++ language that gets excuted either in the request or response flow like any other Envoy Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
