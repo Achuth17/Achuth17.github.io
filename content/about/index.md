@@ -13,6 +13,8 @@ Hi 👋🏽, I'm Achuth. I'm a software engineer based in the San Francisco Bay 
 Over the years, I've built systems across various domains - from API management platforms to machine learning pipelines, from traffic prediction engines to caching frameworks. I enjoy working with Java, Python, Go and distributed systems, particularly when solving interesting data processing challenges.
 
 I have a Master's in Computer Science from SUNY Buffalo and started my tech journey with a Bachelor's in Computer Science from SRM University, India.
-This blog is where I share my personal projects and explorations in technology. All opinions and content here are my own and not associated with my work at Google.
+This blog is where I share my personal projects and explorations in technology.
+
+All opinions and content here are my own and not associated with my work at Google.
 
 
