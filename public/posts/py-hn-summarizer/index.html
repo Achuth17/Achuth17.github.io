@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html><head lang="en"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Hacker News post summarization with a thinking model - Achuth&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="If you are anything like me, you spend a lot of time reading through the posts and discussions on the front page of Hacker News each day. Sometimes even after spending an hour or more on Hacker News, I come out with a sense that I haven’t fully caught up on the posts or the discussions.
+For the uninitiated, Hacker News is a site that aggregates news and blogs about tech, science and innovation with a social element to it. Users can share stories they find interesting as text or links and have discussions about it.  I personally learn a lot by going through a handful of Hacker News posts and the discussions each day.  Posts that make it to the coveted front page often have thought provoking discussions, aspects of the topic missed by the original post. The contents of the post combined with the vibrant discussions give a more holistic view of the subject than reading just the post or just the discussion on Hacker News." />
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content="http://localhost:1313/posts/py-hn-summarizer/">
+  <meta property="og:site_name" content="Achuth&#39;s Blog">
+  <meta property="og:title" content="Hacker News post summarization with a thinking model">
+  <meta property="og:description" content="If you are anything like me, you spend a lot of time reading through the posts and discussions on the front page of Hacker News each day. Sometimes even after spending an hour or more on Hacker News, I come out with a sense that I haven’t fully caught up on the posts or the discussions.
+For the uninitiated, Hacker News is a site that aggregates news and blogs about tech, science and innovation with a social element to it. Users can share stories they find interesting as text or links and have discussions about it. I personally learn a lot by going through a handful of Hacker News posts and the discussions each day. Posts that make it to the coveted front page often have thought provoking discussions, aspects of the topic missed by the original post. The contents of the post combined with the vibrant discussions give a more holistic view of the subject than reading just the post or just the discussion on Hacker News.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-23T13:22:27-08:00">
+    <meta property="article:modified_time" content="2025-02-23T13:22:27-08:00">
+    <meta property="article:tag" content="LLM">
+    <meta property="article:tag" content="HackerNews">
+    <meta property="article:tag" content="Gemini">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Hacker News post summarization with a thinking model">
+  <meta name="twitter:description" content="If you are anything like me, you spend a lot of time reading through the posts and discussions on the front page of Hacker News each day. Sometimes even after spending an hour or more on Hacker News, I come out with a sense that I haven’t fully caught up on the posts or the discussions.
+For the uninitiated, Hacker News is a site that aggregates news and blogs about tech, science and innovation with a social element to it. Users can share stories they find interesting as text or links and have discussions about it. I personally learn a lot by going through a handful of Hacker News posts and the discussions each day. Posts that make it to the coveted front page often have thought provoking discussions, aspects of the topic missed by the original post. The contents of the post combined with the vibrant discussions give a more holistic view of the subject than reading just the post or just the discussion on Hacker News.">
+<script src="http://localhost:1313/js/feather.min.js"></script>
+	
+	
+        <link href="http://localhost:1313/css/fonts.2c2227b81b1970a03e760aa2e6121cd01f87c88586803cbb282aa224720a765f.css" rel="stylesheet">
+	
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:1313/css/main.5cebd7d4fb2b97856af8d32a6def16164fcf7d844e98e236fcb3559655020373.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="http://localhost:1313/css/dark.d22e2a2879d933a4b781535fc4c4c716e9f9d35ea4986dd0cbabda82effc4bdd.css"   />
+	
+
+	
+	
+
+	
+	
+
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="http://localhost:1313/">Achuth&#39;s Blog</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/posts">All posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		
+	</nav>
+</header>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">Hacker News post summarization with a thinking model</h1>
+			<div class="meta">Posted on Feb 23, 2025</div>
+		</div>
+		
+
+		
+
+		<section class="body">
+			<p>If you are anything like me, you spend a lot of time reading through the posts and discussions on the front page of Hacker News each day. Sometimes even after spending an hour or more on Hacker News, I come out with a sense that I haven’t fully caught up on the posts or the discussions.</p>
+<p>For the uninitiated, Hacker News is a site that aggregates news and blogs about tech, science and innovation with a social element to it. Users can share stories they find interesting as text or links and have discussions about it.  I personally learn a lot by going through a handful of Hacker News posts and the discussions each day.  Posts that make it to the coveted front page often have thought provoking discussions, aspects of the topic missed by the original post. The contents of the post combined with the vibrant discussions give a more holistic view of the subject than reading just the post or just the discussion on Hacker News.</p>
+<p>But the main issue, like I mentioned earlier, is the effort it takes to keep up with the sheer volume of discussions and postings that happen on Hacker News each day. One might wonder if it is even necessary to keep up with all the postings and that is true, one need not keep up with all the postings on the front page of Hacker News but even if you decided to follow one interesting thread on Hacker News, the number of comments can go well over a thousand. How do I get a gist of all the different discussions happening either in a thread or across the front page and selectively focus on the ones that interest me?</p>
+<p>To solve this problem I started looking into some of the popular Large Language Models (LLMs) to distill the discussions into concise snippets. Thinking models (LLMs that can reason through a prompt before generating a result using techniques like chain-of-thought prompting or tree-of-thought reasoning) particularly seemed to fit the bill nicely. These models tend to do better when asked to reason through a posting and the perspectives brought forth by the top comments in a thread.</p>
+<p>Before starting with the implementation, I had a few top levels goals for the result -</p>
+<ol>
+<li>The result should include a summary of the Hacker News posting and this should be provided independent of the summary of the discussion.</li>
+<li>The summary of the discussion should be grouped into individual points based on the topic being discussed.</li>
+<li>Each point in the discussion summary should cite the comments it is summarizing. (This is important to avoid hallucinations.)</li>
+<li>The result should be in a human readable format, preferably Markdown.</li>
+</ol>
+<h3 id="implementation-goals">Implementation Goals</h3>
+<ol>
+<li><strong>Fetching the contents of the post:</strong> For a provided Hacker News post id, fetch the contents of the URL shared in the post. A Hacker News post can be a URL or a block of text. For this task, I&rsquo;m only focusing on the URL posts.</li>
+<li><strong>Converting the post to Markdown:</strong> Since the posts usually tend to be very text heavy like a blog post or a product announcement post, converting the post to the Markdown format is a good way to share the post with an LLM.</li>
+<li><strong>Fetching the discussions from the Hacker News thread:</strong> For a provided Hacker News post id, fetch the top comments from the discussion with the associated comment metadata.</li>
+<li><strong>Structuring the prompt:</strong> Arrange the contents of the post and the discussion into a prompt template that instructs the model to generate a meaningful summary meeting the goals listed above.</li>
+<li><strong>Invoking the LLM:</strong> Choose a model and supply the generated prompt template to the model with associated hyper-parameters to generate the summary. (More on model choice later.)</li>
+<li><strong>Output the summary:</strong> Once the summary is returned by the LLM, output the results in a structured format. Bonus points if the LLM can output the result in a structured format.</li>
+</ol>
+<p>The code associated with this post can be found on Github <a href="https://github.com/Achuth17/py-hn-summarizer">here</a>. The repository contains the main Python script, prompt templates, and sample summaries.</p>
+<h3 id="technical-implementation">Technical Implementation</h3>
+<h4 id="step-1-fetching-the-top-posts-the-post-contents-and-the-discussion-from-hacker-news">Step 1: Fetching the top posts, the post contents and the discussion from Hacker News</h4>
+<p>Hacker News has a great REST API with <a href="https://github.com/HackerNews/API">documentation</a>. Since I work with a Python script, I decided to use a Python wrapper for the Hacker News API called <a href="https://github.com/avinassh/haxor">Haxor</a>. The unofficial python client provides a simple interface to access all the top posts with its external URL, top comments and the comment metadata.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#f92672">from</span> hackernews <span style="color:#f92672">import</span> HackerNews  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> hackernews <span style="color:#f92672">import</span> Item
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_top_story_urls</span>(self, count: int):          
+</span></span><span style="display:flex;"><span>        hn <span style="color:#f92672">=</span> HackerNews()  
+</span></span><span style="display:flex;"><span>        top_stories <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>hn<span style="color:#f92672">.</span>top_stories(limit<span style="color:#f92672">=</span>count)  
+</span></span><span style="display:flex;"><span>        urls <span style="color:#f92672">=</span> []  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> story <span style="color:#f92672">in</span> top_stories:  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> story<span style="color:#f92672">.</span>item_type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;story&#39;</span>:  
+</span></span><span style="display:flex;"><span>                urls<span style="color:#f92672">.</span>append(story<span style="color:#f92672">.</span>url)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> urls
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_top_story_comments</span>(self, item: Item, count: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>):  
+</span></span><span style="display:flex;"><span>        comments <span style="color:#f92672">=</span> []  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> item<span style="color:#f92672">.</span>kids:  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> comments  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> comment <span style="color:#f92672">in</span> item<span style="color:#f92672">.</span>kids:  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> len(comments) <span style="color:#f92672">==</span> <span style="color:#ae81ff">50</span>:  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> comment<span style="color:#f92672">.</span>text <span style="color:#f92672">or</span> comment<span style="color:#f92672">.</span>deleted <span style="color:#f92672">or</span> comment<span style="color:#f92672">.</span>dead:  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">continue</span>  
+</span></span><span style="display:flex;"><span>            comments<span style="color:#f92672">.</span>append(comment)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> comments  
+</span></span></code></pre></div><p>Once the URL is available, Python’s requests library is great for fetching a web page in the HTML format.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_fetch_url_contents</span>(self, url: str):      
+</span></span><span style="display:flex;"><span>        response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(url)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> response<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> response<span style="color:#f92672">.</span>text  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:  
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;&#34;</span>  
+</span></span></code></pre></div><h4 id="step-2-converting-the-contents-of-the-post-as-a-markdown-but-why-do-it">Step 2: Converting the contents of the post as a Markdown (But why do it?)</h4>
+<p>The post fetched from Hacker News URL is almost always in HTML format but Markdown is a better  representation to share with an LLM. Markdown is more concise, human readable and leads to less confusion without all the additional noise. Avoiding all the tags and the noise also helps us keep the LLM token usage down.</p>
+<p>The html2markdown library is great for converting HTML files to Markdown but the library is not perfect. It does leave the headers and footers behind and there are some edge cases where image descriptions are left behind with weird formatting. I have not fixed these issues in the first iteration.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#f92672">import</span> html2text
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_convert_contents_to_markdown</span>(self, contents: str):  
+</span></span><span style="display:flex;"><span>        h <span style="color:#f92672">=</span> html2text<span style="color:#f92672">.</span>HTML2Text()  
+</span></span><span style="display:flex;"><span>        h<span style="color:#f92672">.</span>ignore_links <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>  
+</span></span><span style="display:flex;"><span>        h<span style="color:#f92672">.</span>ignore_images <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> h<span style="color:#f92672">.</span>handle(contents)  
+</span></span></code></pre></div><h4 id="step-3-structuring-all-the-data-into-a-prompt">Step 3: Structuring all the data into a prompt</h4>
+<p>So far, we have the contents of the post in the Markdown format, the top comments with its metadata. We need an LLM to summarize the post, summarize and group the comments but topic and include the citations. I decided to take the easy road for this step and all all the requirements into a single prompt. You can find the latest version of this prompt <a href="https://github.com/Achuth17/py-hn-summarizer/tree/main/prompts">here</a>.</p>
+<p>Sample prompt -</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>System prompt instructions:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    1. Summarize the article into bullet points with the title - &#34;Summary&#34;.  
+</span></span><span style="display:flex;"><span>    2. Group Comments that carry a similar message.  
+</span></span><span style="display:flex;"><span>    3. For each group of Comments, summarize the Comments about the article into bullet points with the title - &#34;Discussion Summary&#34;.  
+</span></span><span style="display:flex;"><span>        a. For each group of comments being summarized, include attribution to the original Comments in the format: (&lt;Comma separated list of https://news.ycombinator.com/item?id=&lt;comment_id&gt;&gt;)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Article Contents:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ARTICLE_CONTENTS
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Top comments in the format &#39;comment_id : comment contents&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>COMMENT_CONTENTS  
+</span></span></code></pre></div><p>Is there any room for improvement in the prompt? Yes. But does the first version of the prompt already do what I want? Also Yes. So I will kick the “prompt improvements” can down the road.</p>
+<h4 id="step-4-which-llm-to-use">Step 4: Which LLM to use?</h4>
+<p>I decided to go with <code>gemini-2.0-flash-thinking-exp-01-21</code> (rolls off the tongue) for the first iteration. Why did I go with Gemini? Keeping my personal biases aside, I picked Gemini models for a few reasons -</p>
+<ol>
+<li><strong>Generous free tier for prototyping:</strong> As I write this, the thinking models are free up to 1500 requests per day on aistudio.google.com. The quota is always free, unlike Claude, for example, whose limits are set dynamically based on daily demand rather than being explicitly stated.</li>
+<li><strong>Low latency:</strong> The latency for even the frontier and experimental thinking models is surprisingly low in my tests. I prefer not waiting for minutes to iterate on my prompts.</li>
+<li><strong>Price to performance ratio of paid tier:</strong> Short of hosting the reasoning model myself locally, which I don’t plan to do at any point in the future,  the price to performance ratio of Gemini was the best in the market in-case I wanted to scale this up as a service.</li>
+</ol>
+<p>Gemini invocation is fairly simple, I have a small snippet of what I did below -</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#f92672">import</span> os  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> google.generativeai <span style="color:#66d9ef">as</span> genai
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>genai<span style="color:#f92672">.</span>configure(api_key<span style="color:#f92672">=</span>os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#34;GEMINI_API_KEY&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GeminiClient</span>:  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Create the model  </span>
+</span></span><span style="display:flex;"><span>        generation_config <span style="color:#f92672">=</span> {  
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;temperature&#34;</span>: <span style="color:#ae81ff">0.7</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;top_p&#34;</span>: <span style="color:#ae81ff">0.95</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;top_k&#34;</span>: <span style="color:#ae81ff">64</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;max_output_tokens&#34;</span>: <span style="color:#ae81ff">65536</span>,  
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;response_mime_type&#34;</span>: <span style="color:#e6db74">&#34;text/plain&#34;</span>,  
+</span></span><span style="display:flex;"><span>        }  
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model <span style="color:#f92672">=</span> genai<span style="color:#f92672">.</span>GenerativeModel(  
+</span></span><span style="display:flex;"><span>            model_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;gemini-2.0-flash-thinking-exp-01-21&#34;</span>,  
+</span></span><span style="display:flex;"><span>            generation_config<span style="color:#f92672">=</span>generation_config,  
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">ask_gemini</span>(self, query: str) <span style="color:#f92672">-&gt;</span> str:          
+</span></span><span style="display:flex;"><span>        chat_session <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>start_chat(history<span style="color:#f92672">=</span>[])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        response <span style="color:#f92672">=</span> chat_session<span style="color:#f92672">.</span>send_message(query)  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> response<span style="color:#f92672">.</span>text  
+</span></span></code></pre></div><h4 id="step-5-structuring-the-output">Step 5: Structuring the output</h4>
+<p>The prompt had specific instructions on how to structure the output in Markdown including specific instructions around including citations in the output. Gemini is surprisingly good at following my instructions and I did not run into any issues in the testing.</p>
+<p>The final summaries are written as a text file in the <code>library/</code> folder for now. I have a few sample summaries generated by the script <a href="https://github.com/Achuth17/py-hn-summarizer/tree/main/library">here</a></p>
+<h3 id="final-thoughts">Final Thoughts</h3>
+<p>The instruction following capabilities are great in the Gemini thinking model I used. I tried citing the urls of the comments that contributed to each point in the comment summarization block and Gemini was able to do this with minimal prompting and examples.</p>
+<p>There is plenty of room for improvement in the prompting, error handling and Markdown conversion areas. The goal of this initial exercise was to hack together a solution to check the feasibility of this approach. I will explore these areas next and share more here.</p>
+<h3 id="future-work">Future Work</h3>
+<ol>
+<li>This whole process could have been faster if I used a tool like Windsurf or Cursor to code. I will explore this too in the next iteration.</li>
+<li>Checking if open weight models like DeepSeek R1 can be an option for this task. I have a version of R1 running locally using Ollama, I plan to explore if R1 can replace Gemini thinking for this use case.</li>
+<li>Exploring other reasoning LLMs like O1, xAI’s Grok 3 or Perplexity Sonar based Deepseek R1 1776.</li>
+<li>Turning this script into a service that users can invoke locally or visit as a website to get a daily or weekly gist of events happening on Hacker News.</li>
+</ol>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/llm">LLM</a></li>
+					
+					<li><a href="/tags/hackernews">HackerNews</a></li>
+					
+					<li><a href="/tags/gemini">Gemini</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+</main>
+<footer>
+  <div style="display:flex"><a class="soc" href="https://github.com/Achuth17" rel="me" title="GitHub"><i data-feather="github"></i></a>
+    <a class="border"></a></div>
+  <div class="footer-info">
+    2025  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+<script>
+  feather.replace()
+</script></div>
+    </body>
+</html>

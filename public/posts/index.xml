@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Achuth&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Oct 2024 11:07:45 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 23 Feb 2025 13:22:27 -0800</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Py Hn Summarizer</title>
+      <link>http://localhost:1313/posts/py-hn-summarizer/</link>
+      <pubDate>Sun, 23 Feb 2025 13:22:27 -0800</pubDate>
+      <guid>http://localhost:1313/posts/py-hn-summarizer/</guid>
+      <description>&lt;h1 id=&#34;hacker-news-post-summarization-with-a-thinking-model&#34;&gt;Hacker News post summarization with a thinking model&lt;/h1&gt;&#xA;&lt;p&gt;If you are anything like me, you spend a lot of time reading through the posts and discussions on the front page of Hacker News each day. Sometimes even after spending an hour or more on Hacker News, I come out with a sense that I haven’t fully caught up on the posts or the discussions.&lt;/p&gt;&#xA;&lt;p&gt;For the uninitiated, Hacker News is a site that aggregates news and blogs about tech, science and innovation with a social element to it. Users can share stories they find interesting as text or links and have discussions about it.  I personally learn a lot by going through a handful of Hacker News posts and the discussions each day.  Posts that make it to the coveted front page often have thought provoking discussions, aspects of the topic missed by the original post. The contents of the post combined with the vibrant discussions give a more holistic view of the subject than reading just the post or just the discussion on Hacker News.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Envoy Proxy: API Key Validation using HTTP Lua Filters</title>
       <link>http://localhost:1313/posts/lua-filters-api-key-validation/</link>
