@@ -3,7 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2025-02-23T13:22:27-08:00</lastmod>
+    <lastmod>2025-03-02T19:12:36-08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-03-02T19:12:36-08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/why-blog/</loc>
+    <lastmod>2025-03-02T19:12:36-08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/gemini/</loc>
     <lastmod>2025-02-23T13:22:27-08:00</lastmod>
@@ -15,9 +21,6 @@
     <lastmod>2025-02-23T13:22:27-08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/llm/</loc>
-    <lastmod>2025-02-23T13:22:27-08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/</loc>
     <lastmod>2025-02-23T13:22:27-08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>

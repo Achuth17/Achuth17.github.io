@@ -22,7 +22,7 @@
 
 	
 	<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:1313/css/main.5cebd7d4fb2b97856af8d32a6def16164fcf7d844e98e236fcb3559655020373.css" />
-		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="http://localhost:1313/css/dark.d22e2a2879d933a4b781535fc4c4c716e9f9d35ea4986dd0cbabda82effc4bdd.css"   />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="http://localhost:1313/css/dark.d22e2a2879d933a4b781535fc4c4c716e9f9d35ea4986dd0cbabda82effc4bdd.css"  disabled />
 	
 
 	
@@ -50,6 +50,8 @@
 		
 		<a href="/tags">Tags</a>
 		
+		| <span id="dark-mode-toggle" onclick="toggleTheme()"></span>
+		<script src="http://localhost:1313/js/themetoggle.js"></script>
 		
 		<script id="partials/analytics.html" data-goatcounter="https://achuthr.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 	</nav>
@@ -60,6 +62,17 @@
 				<div class="site-description"></div>
 				
 				
+				
+				<section class="list-item">
+					<h1 class="title"><a href="/posts/why-blog/">Why blog as a developer in the era of Generative AI?</a></h1>
+					<time>Mar 2, 2025</time>
+					<br><div class="description">
+	
+	<p>In the last year, language models have gotten <a href="https://x.com/swyx/status/1882933368444309723">cheaper and faster at the same time</a>. This has led to a situation where we have a proliferation of answer interfaces in a lot of existing apps like Reddit in addition to the standalone apps that focus on giving you answers like Google, ChatGPT or Perplexity. Someone looking for information can easily open any one of these apps, type in a topic and get an eloquent multi-page in-depth answer.</p>&hellip;
+	
+</div>
+					<a class="readmore" href="/posts/why-blog/">Read more ⟶</a>
+				</section>
 				
 				<section class="list-item">
 					<h1 class="title"><a href="/posts/py-hn-summarizer/">Hacker News post summarization with a thinking model</a></h1>
@@ -86,18 +99,18 @@
 					<a class="readmore" href="/posts/lua-filters-api-key-validation/">Read more ⟶</a>
 				</section>
 				
-				<section class="list-item">
-					<h1 class="title"><a href="/posts/envoy-lua-filter-exploration/">Envoy Lua HTTP Filter Exploration</a></h1>
-					<time>Oct 13, 2024</time>
-					<br><div class="description">
-	
-	<p>Envoy offers a of variety in HTTP filters and you can do a lot with what comes out of the box like <code>Header Mutation filter</code> or <code>gRPC-HTTP Transcoding</code>. While this is great, there are certain circumstances where we need some additional customizations. To solve this issue, Envoy provides options like Lua HTTP Filter, Wasm Filter or the ExtProc Filter. Through these filters, you can write custom code in a non-C++ language that gets excuted either in the request or response flow like any other Envoy Filter. To start my journey into extending Envoy, I spent some time looking into the Lua HTTP Filter.</p>&hellip;
-	
-</div>
-					<a class="readmore" href="/posts/envoy-lua-filter-exploration/">Read more ⟶</a>
-				</section>
 				
-				
+
+<ul class="pagination">
+	<span class="page-item page-prev">
+	
+	</span>
+	<span class="page-item page-next">
+	
+    <a href="/page/2/" class="page-link" aria-label="Next"><span aria-hidden="true">Next →</span></a>
+	
+	</span>
+</ul>
 
 
 			</main>

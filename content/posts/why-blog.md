@@ -1,0 +1,28 @@
++++
+title = 'Why blog as a developer in the era of Generative AI?'
+date = 2025-03-02T19:12:36-08:00
+draft = false
+tags = ['LLM', 'HackerNews', 'Thoughts']
++++
+
+In the last year, language models have gotten [cheaper and faster at the same time](https://x.com/swyx/status/1882933368444309723). This has led to a situation where we have a proliferation of answer interfaces in a lot of existing apps like Reddit in addition to the standalone apps that focus on giving you answers like Google, ChatGPT or Perplexity. Someone looking for information can easily open any one of these apps, type in a topic and get an eloquent multi-page in-depth answer.
+
+With all these changes just in the last year, I have been asking myself why bother reading or writing technical blogs or opinion pieces anymore when LLMs can generate a wall of text in an instant? 
+
+From the perspective of a reader looking for a quick answer to a burning question, the answer is a clear no. They are better served by answer engines giving them an answer most likely to satisfy their need. There is a clear tradeoff here though, the answer for the question is quick but all nuance or context is sacrificed for it. This tradeoff is not very clearly advertised nor discussed by any of these platforms, if anything, they advertise the opposite. As explained by Ben Evans in a [blog post](https://www.ben-evans.com/benedictevans/2025/2/17/the-deep-research-problem), even a simple question like \- “Mobile OS adoption rates in Japan” has a lot of nuance to it \- What does adoption mean here? How is adoption measured? Are there any biases in the way adoption is defined or measured?
+
+But readers, in my opinion, should not be hyper focused on the answer alone, at least not always. Just a casual scroll down Hacker News will net you a ton of writers who share their perspective or their journey to a solution and are looking to have a discussion around the conclusion. When readers pass on reading long form posts or blogs, this avenue of discussion and community is lost.
+
+We also have a ton of bloggers and developers [who are learning a new skill out in the open](https://news.ycombinator.com/item?id=38671876) and showing everyone their journey. This demystifies a subject or makes it slightly more approachable to someone who might not venture into it otherwise. Even if you are already familiar with the subject of the post, reading a long technical blog lets the reader share the thinking process or research process of the writer and you can carry this perspective to a different problem.
+
+Now shifting gears into a writer’s perspective, with all the changes around fast and intelligent text generating LLMs, I think it is more important to have a personal blog. In a world where we are constantly being pushed to write bite-sized chunks, writing long form content is a good way to buck the trend and retain our ability to think and share complex ideas.
+
+From writing emails to drafting text messages, we get to take the help of intelligent LLMs at every step of the way to craft our message. While this helps us save a great deal of time, I think we are outsourcing an essential skill we could use to reason through a problem space or question inconsistencies in our own thought process. In my experience, writing is a great way to clarify a large number of independent thoughts, connect them clearly and actually reason through your ideas. Sharing these writings as a blog post can help us preserve our thought process and it is also a great way to get external feedback from readers.
+
+A post on your personal blog is a great way to share what you are working on in all its imperfections. When I sit to write about a subject, I am forced to think through my assumptions and question why I made those assumptions. Blogging is more forgiving and its informal tone and setting are more of a feature than a bug. You can bring your readers along on your journey to learn something new, to create something that does not exist or to simply show something that you did over a weekend. This creates a sense of authenticity that an LLM generated answer will not be able to replicate.
+
+Writing outside of work in a personal blog is a great way to build a personal brand for a developer. What we do at work is mired in proprietary technology that cannot be discussed freely with the outside world (for good reason), even if we are granted that rare permission to do so, we have to go through a lot of bureaucracy and reviews to get our work published. And quite frankly, writing something externally is never expected of developers. Like a muscle that is never used slowly diminishes, our skill to write long form slowly diminishes as we grow in our careers as a developer. So, a blog is a great place to learn something in the open and write about it\!
+
+Lastly, one might wonder, why write if no one is going to read your blogs? I think the primary audience for a blog post is the writer themselves. Blogging is a great place to archive your thoughts and goes beyond catering to an external audience. I have gone back and read my own blogs to understand why I have a certain opinion on a subject. And, on more than one occasion, I have shared my blog post with a friend or a coworker when we start discussing a subject I have written about before. The blog post serves as a great reference version of me able to express my thoughts and opinions about a subject with a lot of clarity.
+
+To conclude, in this new world of LLMs and Generative AI,  writing or reading technical developer blogs is more important and powerful than ever. So, write that blog, share that opinion and keep the conversation alive. We know for a fact that there is at least an audience of one.
