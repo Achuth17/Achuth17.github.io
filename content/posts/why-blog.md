@@ -1,5 +1,5 @@
 +++
-title = 'Why blog as a developer in the era of Generative AI?'
+title = 'Why read or write blogs as a developer in the era of Generative AI?'
 date = 2025-03-02T19:12:36-08:00
 draft = false
 tags = ['LLM', 'HackerNews', 'Thoughts']
