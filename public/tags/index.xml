@@ -6,27 +6,34 @@
     <description>Recent content in Tags on Achuth&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 23 Feb 2025 13:22:27 -0800</lastBuildDate>
+    <lastBuildDate>Sun, 02 Mar 2025 19:12:36 -0800</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Gemini</title>
-      <link>http://localhost:1313/tags/gemini/</link>
-      <pubDate>Sun, 23 Feb 2025 13:22:27 -0800</pubDate>
-      <guid>http://localhost:1313/tags/gemini/</guid>
-      <description></description>
-    </item>
     <item>
       <title>HackerNews</title>
       <link>http://localhost:1313/tags/hackernews/</link>
-      <pubDate>Sun, 23 Feb 2025 13:22:27 -0800</pubDate>
+      <pubDate>Sun, 02 Mar 2025 19:12:36 -0800</pubDate>
       <guid>http://localhost:1313/tags/hackernews/</guid>
       <description></description>
     </item>
     <item>
       <title>LLM</title>
       <link>http://localhost:1313/tags/llm/</link>
-      <pubDate>Sun, 23 Feb 2025 13:22:27 -0800</pubDate>
+      <pubDate>Sun, 02 Mar 2025 19:12:36 -0800</pubDate>
       <guid>http://localhost:1313/tags/llm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Thoughts</title>
+      <link>http://localhost:1313/tags/thoughts/</link>
+      <pubDate>Sun, 02 Mar 2025 19:12:36 -0800</pubDate>
+      <guid>http://localhost:1313/tags/thoughts/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gemini</title>
+      <link>http://localhost:1313/tags/gemini/</link>
+      <pubDate>Sun, 23 Feb 2025 13:22:27 -0800</pubDate>
+      <guid>http://localhost:1313/tags/gemini/</guid>
       <description></description>
     </item>
     <item>

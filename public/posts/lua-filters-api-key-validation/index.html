@@ -51,7 +51,9 @@ What are API Keys? API Keys are used for authorization by some servers and they 
 		
 		<a href="/">Home</a>
 		
-		<a href="/posts">All posts</a>
+		<a href="/posts">Posts</a>
+		
+		<a href="/notes">Notes</a>
 		
 		<a href="/about">About</a>
 		
@@ -117,7 +119,6 @@ What are API Keys? API Keys are used for authorization by some servers and they 
 <li>Validate the API Key by making an external HTTP Call.</li>
 <li>Terminate requests that fail API Key Validation step with a proper error message.</li>
 </ol>
-<p><a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-apikey-auth.yaml">Full example</a></p>
 <h3 id="extracting-api-key-from-headers">Extracting API Key from Headers</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>local auth_key = &#34;X-API-KEY&#34;
 </span></span><span style="display:flex;"><span>local headers = request_handle:headers()
@@ -156,7 +157,7 @@ What are API Keys? API Keys are used for authorization by some servers and they 
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> fields
 </span></span><span style="display:flex;"><span>end
 </span></span></code></pre></div><h3 id="making-an-external-validation-call">Making an external validation call</h3>
-<p>We can make an HTTP call from the request or respose flow in the Lua Filter. In this case, I have opted to use the sync HTTP call. The backend server used for making the validation call should be <a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-apikey-auth.yaml#L53">registered</a> as a <code>cluster</code> in the main envoy config.yaml file.</p>
+<p>We can make an HTTP call from the request or respose flow in the Lua Filter. In this case, I have opted to use the sync HTTP call. The backend server used for making the validation call should be registered as a <code>cluster</code> in the main envoy config.yaml file.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>local resp_headers, body = request_handle:httpCall(
 </span></span><span style="display:flex;"><span>    &#34;auth_cluster&#34;,
 </span></span><span style="display:flex;"><span>    {
@@ -174,8 +175,7 @@ What are API Keys? API Keys are used for authorization by some servers and they 
 </span></span><span style="display:flex;"><span>    -- Respond back as denied, we can short circuit any further filters.
 </span></span><span style="display:flex;"><span>    request_handle:respond({[&#34;:status&#34;] = status_code}, &#34;API Key is Invalid!\n&#34;)
 </span></span><span style="display:flex;"><span>end
-</span></span></code></pre></div><p><a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-apikey-auth.yaml">Full example</a></p>
-<p>To validate the API Keys, I am hosting a <a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/auth_server/auth_server.go">simple go http server</a> that rejects requests that don&rsquo;t contain the expected API Key in the header.</p>
+</span></span></code></pre></div><p>To validate the API Keys, I am hosting a simple go http server that rejects requests that don&rsquo;t contain the expected API Key in the header.</p>
 <h2 id="learnings">Learnings:</h2>
 <ol>
 <li>The Lua HTTP Filter is fairly extensible as it can make one or more sync/async HTTP calls in the request or response path.</li>

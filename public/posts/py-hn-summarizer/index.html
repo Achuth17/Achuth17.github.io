@@ -51,7 +51,9 @@ For the uninitiated, Hacker News is a site that aggregates news and blogs about 
 		
 		<a href="/">Home</a>
 		
-		<a href="/posts">All posts</a>
+		<a href="/posts">Posts</a>
+		
+		<a href="/notes">Notes</a>
 		
 		<a href="/about">About</a>
 		
@@ -95,7 +97,6 @@ For the uninitiated, Hacker News is a site that aggregates news and blogs about 
 <li><strong>Invoking the LLM:</strong> Choose a model and supply the generated prompt template to the model with associated hyper-parameters to generate the summary. (More on model choice later.)</li>
 <li><strong>Output the summary:</strong> Once the summary is returned by the LLM, output the results in a structured format. Bonus points if the LLM can output the result in a structured format.</li>
 </ol>
-<p>The code associated with this post can be found on Github <a href="https://github.com/Achuth17/py-hn-summarizer">here</a>. The repository contains the main Python script, prompt templates, and sample summaries.</p>
 <h3 id="technical-implementation">Technical Implementation</h3>
 <h4 id="step-1-fetching-the-top-posts-the-post-contents-and-the-discussion-from-hacker-news">Step 1: Fetching the top posts, the post contents and the discussion from Hacker News</h4>
 <p>Hacker News has a great REST API with <a href="https://github.com/HackerNews/API">documentation</a>. Since I work with a Python script, I decided to use a Python wrapper for the Hacker News API called <a href="https://github.com/avinassh/haxor">Haxor</a>. The unofficial python client provides a simple interface to access all the top posts with its external URL, top comments and the comment metadata.</p>
@@ -142,7 +143,7 @@ For the uninitiated, Hacker News is a site that aggregates news and blogs about 
 </span></span><span style="display:flex;"><span>        h<span style="color:#f92672">.</span>ignore_images <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>  
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> h<span style="color:#f92672">.</span>handle(contents)  
 </span></span></code></pre></div><h4 id="step-3-structuring-all-the-data-into-a-prompt">Step 3: Structuring all the data into a prompt</h4>
-<p>So far, we have the contents of the post in the Markdown format, the top comments with its metadata. We need an LLM to summarize the post, summarize and group the comments but topic and include the citations. I decided to take the easy road for this step and all all the requirements into a single prompt. You can find the latest version of this prompt <a href="https://github.com/Achuth17/py-hn-summarizer/tree/main/prompts">here</a>.</p>
+<p>So far, we have the contents of the post in the Markdown format, the top comments with its metadata. We need an LLM to summarize the post, summarize and group the comments but topic and include the citations. I decided to take the easy road for this step and all all the requirements into a single prompt.</p>
 <p>Sample prompt -</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>System prompt instructions:
 </span></span><span style="display:flex;"><span>
@@ -160,6 +161,7 @@ For the uninitiated, Hacker News is a site that aggregates news and blogs about 
 </span></span><span style="display:flex;"><span>COMMENT_CONTENTS  
 </span></span></code></pre></div><p>Is there any room for improvement in the prompt? Yes. But does the first version of the prompt already do what I want? Also Yes. So I will kick the “prompt improvements” can down the road.</p>
 <h4 id="step-4-which-llm-to-use">Step 4: Which LLM to use?</h4>
+<p>Note: Disclaimer, I do work for Google but not on Gemini or Deepmind, opinions are my own.</p>
 <p>I decided to go with <code>gemini-2.0-flash-thinking-exp-01-21</code> (rolls off the tongue) for the first iteration. Why did I go with Gemini? Keeping my personal biases aside, I picked Gemini models for a few reasons -</p>
 <ol>
 <li><strong>Generous free tier for prototyping:</strong> As I write this, the thinking models are free up to 1500 requests per day on aistudio.google.com. The quota is always free, unlike Claude, for example, whose limits are set dynamically based on daily demand rather than being explicitly stated.</li>
@@ -194,7 +196,7 @@ For the uninitiated, Hacker News is a site that aggregates news and blogs about 
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> response<span style="color:#f92672">.</span>text  
 </span></span></code></pre></div><h4 id="step-5-structuring-the-output">Step 5: Structuring the output</h4>
 <p>The prompt had specific instructions on how to structure the output in Markdown including specific instructions around including citations in the output. Gemini is surprisingly good at following my instructions and I did not run into any issues in the testing.</p>
-<p>The final summaries are written as a text file in the <code>library/</code> folder for now. I have a few sample summaries generated by the script <a href="https://github.com/Achuth17/py-hn-summarizer/tree/main/library">here</a></p>
+<p>The final summaries are written as a text file in the <code>library/</code> folder for now.</p>
 <h3 id="final-thoughts">Final Thoughts</h3>
 <p>The instruction following capabilities are great in the Gemini thinking model I used. I tried citing the urls of the comments that contributed to each point in the comment summarization block and Gemini was able to do this with minimal prompting and examples.</p>
 <p>There is plenty of room for improvement in the prompting, error handling and Markdown conversion areas. The goal of this initial exercise was to hack together a solution to check the feasibility of this approach. I will explore these areas next and share more here.</p>

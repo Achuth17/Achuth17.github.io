@@ -45,7 +45,9 @@
 		
 		<a href="/">Home</a>
 		
-		<a href="/posts">All posts</a>
+		<a href="/posts">Posts</a>
+		
+		<a href="/notes">Notes</a>
 		
 		<a href="/about">About</a>
 		
@@ -89,8 +91,7 @@
 </span></span><span style="display:flex;"><span>        response_handle:logInfo(&#34;Logging in the response path from default lua source.&#34;)
 </span></span><span style="display:flex;"><span>        end
 </span></span><span style="display:flex;"><span>...
-</span></span></code></pre></div><p><a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-default-source.yaml">Full example</a></p>
-<h3 id="lua-script-files">Lua Script Files</h3>
+</span></span></code></pre></div><h3 id="lua-script-files">Lua Script Files</h3>
 <p>Create a separate Lua script file, Implement the two stub methods function <code>envoy_on_request(request_handle)</code> and function <code>envoy_on_response(response_handle)</code>. Ensure the script is accessible from the Envoy runtime. Once this is done, the script file can be referenced from the <code>source_codes</code> map section of the Lua HTTP Filter.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>-- file.lua
 </span></span><span style="display:flex;"><span>-- Called on the request path.
@@ -118,8 +119,7 @@
 </span></span><span style="display:flex;"><span>                file.lua:
 </span></span><span style="display:flex;"><span>                  filename: file.lua
 </span></span><span style="display:flex;"><span>...
-</span></span></code></pre></div><p><a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-custom-source.yaml">Full example</a></p>
-<h2 id="attaching-lua-scripts">Attaching Lua Scripts</h2>
+</span></span></code></pre></div><h2 id="attaching-lua-scripts">Attaching Lua Scripts</h2>
 <h3 id="lua-per-route">Lua Per Route</h3>
 <p>In each applicable route defined in a <code>virtual_host</code>,  the <code>source_codes</code> map entry for the lua script should be referenced in a <code>typed_per_filter_config</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>...
@@ -143,10 +143,8 @@
 </span></span><span style="display:flex;"><span>                    &#39;@type&#39;: &#34;type.googleapis.com/envoy.extensions.filters.http.lua.v3.LuaPerRoute&#34;
 </span></span><span style="display:flex;"><span>                    name: &#34;file.lua&#34;
 </span></span><span style="display:flex;"><span>...
-</span></span></code></pre></div><p><a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-custom-source.yaml">Full example</a></p>
-<h3 id="default-lua-script">Default Lua Script</h3>
+</span></span></code></pre></div><h3 id="default-lua-script">Default Lua Script</h3>
 <p>Default scripts are added by default to all routes except in routes with <code>Lua Per Route</code>. No extra steps are required in the <code>virtual_host</code> or <code>route</code> configurations.</p>
-<p><a href="https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-default-source.yaml">Full example</a></p>
 <h2 id="learnings">Learnings:</h2>
 <ol>
 <li>
