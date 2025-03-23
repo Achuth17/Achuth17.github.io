@@ -65,8 +65,6 @@ As I discussed in the previous [blog post](https://achuth.blog/posts/envoy-lua-f
 2. Validate the API Key by making an external HTTP Call.
 3. Terminate requests that fail API Key Validation step with a proper error message.
 
-[Full example](https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-apikey-auth.yaml)
-
 ### Extracting API Key from Headers
 
 ```
@@ -114,7 +112,7 @@ end
 
 ### Making an external validation call
 
-We can make an HTTP call from the request or respose flow in the Lua Filter. In this case, I have opted to use the sync HTTP call. The backend server used for making the validation call should be [registered](https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-apikey-auth.yaml#L53) as a `cluster` in the main envoy config.yaml file.
+We can make an HTTP call from the request or respose flow in the Lua Filter. In this case, I have opted to use the sync HTTP call. The backend server used for making the validation call should be registered as a `cluster` in the main envoy config.yaml file.
 
 ```
 local resp_headers, body = request_handle:httpCall(
@@ -141,9 +139,7 @@ if resp_headers[status_header] ~= "200" then
 end
 ```
 
-[Full example](https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-apikey-auth.yaml)
-
-To validate the API Keys, I am hosting a [simple go http server](https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/auth_server/auth_server.go) that rejects requests that don't contain the expected API Key in the header.
+To validate the API Keys, I am hosting a simple go http server that rejects requests that don't contain the expected API Key in the header.
 
 ## Learnings:
 

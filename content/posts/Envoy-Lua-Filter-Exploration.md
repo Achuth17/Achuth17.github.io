@@ -29,7 +29,6 @@ typed_config:
         end
 ...
 ```
-[Full example](https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-default-source.yaml)
 
 ### Lua Script Files
 Create a separate Lua script file, Implement the two stub methods function `envoy_on_request(request_handle)` and function `envoy_on_response(response_handle)`. Ensure the script is accessible from the Envoy runtime. Once this is done, the script file can be referenced from the `source_codes` map section of the Lua HTTP Filter.
@@ -65,7 +64,6 @@ http_filters:
                   filename: file.lua
 ...
 ```
-[Full example](https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-custom-source.yaml)
 
 ## Attaching Lua Scripts
 
@@ -96,12 +94,9 @@ filter_chains:
 ...
 ```
 
-[Full example](https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-custom-source.yaml)
-
 ### Default Lua Script
 Default scripts are added by default to all routes except in routes with `Lua Per Route`. No extra steps are required in the `virtual_host` or `route` configurations.
 
-[Full example](https://github.com/Achuth17/envoy-configs/blob/main/lua-filter/envoy-lua-default-source.yaml)
 
 ## Learnings:
 
